@@ -1,13 +1,33 @@
+/*
+ * Copyright (C) 2011 Everit Kft. (http://www.everit.org)
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.everit.blobstore.api;
 
-import java.io.InputStream;
+import java.util.function.Consumer;
 
+/**
+ * A store that can hold large binary data.
+ */
 public interface Blobstore {
+
+  long createBlob(Consumer<BlobAccessor> createAction);
 
   void deleteBlob(long blobId);
 
   /**
-   * Getting the size of a blob by it's id.
+   * Getting the size of a blob by its id.
    *
    * @param blobId
    *          The id of the blob.
@@ -16,40 +36,21 @@ public interface Blobstore {
    *           if no blob found for {@code blobId} or there is an unexpected exception during
    *           getting the id of the blob.
    */
-  long getBlobSizeByBlobId(long blobId);
+  long getBlobSizeById(long blobId);
 
   /**
-   * Reading the content of a blob from the given position.
+   * Accessing a blob for reading.
    *
    * @param blobId
-   *          The unique id of the blob.
-   * @param startPosition
-   *          The position where the blob reading will be started from.
-   * @param blobReader
-   *          The {@link BlobReader#readBlob(InputStream)} function will be called to let the
-   *          programmer read the content of the blob. The function has one InputStream parameter
-   *          that should not be closed as it is handled automatically. This encapsulation is
-   *          necessary to be sure that the current transaction, connection and resultSet is opened
-   *          until the end of reading of the inputStream.
+   *          The id of the blob.
+   * @param readingAction
+   *          The consumer of the blob content that should be implemented by the user of this
+   *          function.
    * @throws BlobstoreException
    *           if a blob cannot be read due to one of the reasons
    */
-  void readBlob(long blobId, long startPosition, BlobReader blobReader);
+  void readBlob(long blobId, Consumer<BlobReader> readingAction);
 
-  /**
-   * Storing a blob with the data coming from the given inputStream.
-   *
-   * @param blobStream
-   *          The stream where data will be read from when the blob is stored.
-   * @param length
-   *          The length of data that is read from the stream or if null the input stream will be
-   *          read until its end.
-   * @return The unique id of this blob.
-   * @throws BlobstoreException
-   *           with the following reasons
-   * @throws org.everit.util.core.validation.ValidationException
-   *           if the blobStream parameter is null.
-   */
-  long storeBlob(InputStream blobStream, Long length);
+  void updateBlob(long blobId, Consumer<BlobAccessor> updatingAction);
 
 }
