@@ -22,8 +22,23 @@ import java.util.function.Consumer;
  */
 public interface Blobstore {
 
+  /**
+   * Creates a new <code>BLOB</code>.
+   *
+   * @param createAction
+   *          The action that fills the new <code>BLOB</code> with content.
+   * @return The id of the <code>BLOB</code>.
+   */
   long createBlob(Consumer<BlobAccessor> createAction);
 
+  /**
+   * Deletes a <code>BLOB</code> permanently.
+   *
+   * @param blobId
+   *          The id of the <code>BLOB</code> that should be deleted.
+   * @throws NoSuchBlobException
+   *           if there is no <code>BLOB</code> with the specified <code>id</code>.
+   */
   void deleteBlob(long blobId);
 
   /**
@@ -46,11 +61,22 @@ public interface Blobstore {
    * @param readingAction
    *          The consumer of the blob content that should be implemented by the user of this
    *          function.
-   * @throws BlobstoreException
-   *           if a blob cannot be read due to one of the reasons
+   * @throws NoSuchBlobException
+   *           if there is no <code>BLOB</code> with the specified <code>id</code>.
    */
   void readBlob(long blobId, Consumer<BlobReader> readingAction);
 
+  /**
+   * Updates the content of a <code>BLOB</code>. Based on the implementation, this function might
+   * lock the <code>BLOB</code> for update until the end of the atomic transaction.
+   *
+   * @param blobId
+   *          The <code>id</code> of the <code>BLOB</code> that should be modified.
+   * @param updatingAction
+   *          The callback action that modifies the content of the <code>BLOB</code>.
+   * @throws NoSuchBlobException
+   *           if there is no <code>BLOB</code> with the specified <code>id</code>.
+   */
   void updateBlob(long blobId, Consumer<BlobAccessor> updatingAction);
 
 }

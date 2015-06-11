@@ -20,6 +20,11 @@ package org.everit.blobstore.api;
  */
 public interface BlobReader {
 
+  /**
+   * Returns the current position of the cursor in the <code>BLOB</code>.
+   * 
+   * @return The current position of the cursor in the <code>BLOB</code>.
+   */
   long position();
 
   /**
@@ -67,6 +72,18 @@ public interface BlobReader {
    */
   int read(byte[] b, int off, int len);
 
+  /**
+   * Sets the current position within the <code>BLOB</code>.
+   *
+   * <p>
+   * This is similar to the fseek() call in the standard C library. It allows you to have random
+   * access to the large object.
+   *
+   * @param pos
+   *          position within object from begining
+   * @throws java.io.UncheckedIOException
+   *           if a database-access error occurs.
+   */
   void seek(long pos);
 
   /**
