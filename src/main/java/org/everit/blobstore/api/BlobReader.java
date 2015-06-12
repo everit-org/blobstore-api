@@ -22,7 +22,7 @@ public interface BlobReader {
 
   /**
    * Returns the current position of the cursor in the <code>BLOB</code>.
-   * 
+   *
    * @return The current position of the cursor in the <code>BLOB</code>.
    */
   long position();
@@ -73,7 +73,8 @@ public interface BlobReader {
   int read(byte[] b, int off, int len);
 
   /**
-   * Sets the current position within the <code>BLOB</code>.
+   * Sets the current position within the <code>BLOB</code>. If the current position is the same as
+   * the value of <code>pos</code> parameter, this function does nothing.
    *
    * <p>
    * This is similar to the fseek() call in the standard C library. It allows you to have random
@@ -83,6 +84,9 @@ public interface BlobReader {
    *          position within object from begining
    * @throws java.io.UncheckedIOException
    *           if a database-access error occurs.
+   * @throws IndexOutOfBoundsException
+   *           if the specified <code>pos</code> is less than zero or bigger than the
+   *           {@link #size()} of the <code>BLOB</code>.
    */
   void seek(long pos);
 

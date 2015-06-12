@@ -21,6 +21,17 @@ package org.everit.blobstore.api;
 public interface BlobAccessor extends BlobReader {
 
   /**
+   * The new version that will be applied after the transaction of the <code>BLOB</code>
+   * manipulation is commited. Accessing the <code>BLOB</code> always changes the
+   * <code>version</code> even if the content of the <code>BLOB</code> has not been modified via the
+   * {@link BlobAccessor}.
+   *
+   * @return The version that will be assigned to the <code>BLOB</code> after the new content is
+   *         persisted.
+   */
+  long newVersion();
+
+  /**
    * Truncates the <code>BLOB</code> value that this <code>Blob</code> object represents to be
    * <code>len</code> bytes in length.
    *
@@ -62,5 +73,4 @@ public interface BlobAccessor extends BlobReader {
    *           <code>off+len</code> is greater than the length of the array <code>b</code>.
    */
   void write(byte[] b, int off, int len);
-
 }

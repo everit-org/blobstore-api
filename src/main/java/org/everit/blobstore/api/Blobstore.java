@@ -42,18 +42,6 @@ public interface Blobstore {
   void deleteBlob(long blobId);
 
   /**
-   * Getting the size of a blob by its id.
-   *
-   * @param blobId
-   *          The id of the blob.
-   * @return The size in bytes.
-   * @throws BlobstoreException
-   *           if no blob found for {@code blobId} or there is an unexpected exception during
-   *           getting the id of the blob.
-   */
-  long getBlobSizeById(long blobId);
-
-  /**
    * Accessing a blob for reading.
    *
    * @param blobId
@@ -63,6 +51,8 @@ public interface Blobstore {
    *          function.
    * @throws NoSuchBlobException
    *           if there is no <code>BLOB</code> with the specified <code>id</code>.
+   * @throws java.util.ConcurrentModificationException
+   *           if the content of the blob is modified during reading its content.
    */
   void readBlob(long blobId, Consumer<BlobReader> readingAction);
 
