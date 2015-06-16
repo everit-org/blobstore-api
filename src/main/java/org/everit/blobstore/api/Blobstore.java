@@ -26,7 +26,8 @@ public interface Blobstore {
    * Creates a new <code>BLOB</code>.
    *
    * @param createAction
-   *          The action that fills the new <code>BLOB</code> with content.
+   *          The action that fills the new <code>BLOB</code> with content or <code>null</code> if
+   *          an empty <code>BLOB</code> should be created.
    * @return The id of the <code>BLOB</code>.
    */
   long createBlob(Consumer<BlobAccessor> createAction);
@@ -58,7 +59,8 @@ public interface Blobstore {
 
   /**
    * Updates the content of a <code>BLOB</code>. Based on the implementation, this function might
-   * lock the <code>BLOB</code> for update until the end of the atomic transaction.
+   * lock the <code>BLOB</code> for update until the end of the atomic transaction. The position of
+   * the blob is on the byte with index zero when the updatingAction is called.
    *
    * @param blobId
    *          The <code>id</code> of the <code>BLOB</code> that should be modified.
@@ -66,6 +68,8 @@ public interface Blobstore {
    *          The callback action that modifies the content of the <code>BLOB</code>.
    * @throws NoSuchBlobException
    *           if there is no <code>BLOB</code> with the specified <code>id</code>.
+   * @throws NullPointerException
+   *           if <code>updatingAction</code> is <code>null</code>.
    */
   void updateBlob(long blobId, Consumer<BlobAccessor> updatingAction);
 
