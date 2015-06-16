@@ -35,17 +35,14 @@ public interface BlobAccessor extends BlobReader {
    * Truncates the <code>BLOB</code> value that this <code>Blob</code> object represents to be
    * <code>len</code> bytes in length.
    *
-   * <p>
-   * <b>Note:</b> If the value specified for <code>pos</code> is greater then the length+1 of the
-   * <code>BLOB</code> value then the behavior is undefined. Some JDBC drivers may throw a
-   * <code>SQLException</code> (that is translated to <code>BlobStoreException</code>) while other
-   * drivers may support this operation.
-   *
-   * @param len
+   * @param newLength
    *          the length, in bytes, to which the <code>BLOB</code> value that this <code>Blob</code>
    *          object represents should be truncated
+   * @throws IllegalArgumentException
+   *           if <code>newLength</code> is lower than zero, or bigger than the current size of the
+   *           <code>BLOB</code> or {@link #position()} is not in the range of the new length.
    */
-  void truncate(long len);
+  void truncate(long newLength);
 
   /**
    * Writes <code>len</code> bytes from the specified byte array starting at offset <code>off</code>
