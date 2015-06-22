@@ -22,4 +22,8 @@ public class NoSuchBlobException extends RuntimeException {
 
   private static final long serialVersionUID = 663910052267218541L;
 
+  public NoSuchBlobException(final long blobId) {
+    super("No blob with id " + blobId + " is available");
+  }
+
 }
