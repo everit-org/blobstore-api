@@ -15,10 +15,26 @@
  */
 package org.everit.blobstore.api;
 
+import java.io.Closeable;
+
 /**
  * Blob accessor to read Blob content and related data.
  */
-public interface BlobReader {
+public interface BlobReader extends Closeable {
+
+  /**
+   * Closes all resources that has been created for this accessor instance. This method throws only
+   * unchecked exceptions in case any issue occures during closing the accessor.
+   */
+  @Override
+  void close();
+
+  /**
+   * Returns the id of the blob that this accessor belongs to.
+   *
+   * @return The id of the blob.
+   */
+  long getBlobId();
 
   /**
    * Returns the current position of the cursor in the <code>BLOB</code>.
@@ -62,13 +78,17 @@ public interface BlobReader {
    *          the maximum number of bytes to read.
    * @return the total number of bytes read into the buffer, or <code>-1</code> if there is no more
    *         data because the end of the <code>BLOB</code> has been reached.
-   * @exception java.io.IOException
-   *              If reading the content of the <code>BLOB</code> throws an exception.
-   * @exception NullPointerException
-   *              If <code>b</code> is <code>null</code>.
-   * @exception IndexOutOfBoundsException
-   *              If <code>off</code> is negative, <code>len</code> is negative, or <code>len</code>
-   *              is greater than <code>b.length - off</code>
+   * @throws java.io.IOException
+   *           If reading the content of the <code>BLOB</code> throws an exception.
+   *
+   * @throws NullPointerException
+   *           If <code>b</code> is <code>null</code>.
+   * @throws IndexOutOfBoundsException
+   *           If <code>off</code> is negative, <code>len</code> is negative, or <code>len</code> is
+   *           greater than <code>b.length - off</code>
+   * @throws java.util.ConcurrentModificationException
+   *           if the content of the blob was changed since the last read operation and the original
+   *           content cannot be provided.
    */
   int read(byte[] b, int off, int len);
 

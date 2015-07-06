@@ -15,8 +15,6 @@
  */
 package org.everit.blobstore.api;
 
-import java.util.function.Consumer;
-
 /**
  * A store that can hold large binary data.
  */
@@ -28,9 +26,9 @@ public interface Blobstore {
    * @param createAction
    *          The action that fills the new <code>BLOB</code> with content or <code>null</code> if
    *          an empty <code>BLOB</code> should be created.
-   * @return The id of the <code>BLOB</code>.
+   * @return The accessor object to manipulate the blob content.
    */
-  long createBlob(Consumer<BlobAccessor> createAction);
+  BlobAccessor createBlob();
 
   /**
    * Deletes a <code>BLOB</code> permanently.
@@ -47,15 +45,25 @@ public interface Blobstore {
    *
    * @param blobId
    *          The id of the blob.
-   * @param readingAction
-   *          The consumer of the blob content that should be implemented by the user of this
-   *          function.
+   * @return The reader object that can be used to read the blob.
    * @throws NoSuchBlobException
    *           if there is no <code>BLOB</code> with the specified <code>id</code>.
-   * @throws java.util.ConcurrentModificationException
-   *           if the content of the blob is modified during reading its content.
    */
-  void readBlob(long blobId, Consumer<BlobReader> readingAction);
+  BlobReader readBlob(long blobId);
+
+  /**
+   * Reads the Blob within a pessimistic lock. The lock will be released when the transaction ends.
+   * This can be useful if the programmer wants to be sure that the content and version of the blob
+   * is not changed by other transaction until this transaction ends. Use this method with care as
+   * it will avoid parallel execution of the blob content!
+   *
+   * @param blobId
+   *          The id of the blob.
+   * @return The reader object that can be used to read the blob.
+   * @throws NoSuchBlobException
+   *           if there is no <code>BLOB</code> with the specified <code>id</code>.
+   */
+  BlobReader readBlobForUpdate(long blobId);
 
   /**
    * Updates the content of a <code>BLOB</code>. Based on the implementation, this function might
@@ -64,13 +72,10 @@ public interface Blobstore {
    *
    * @param blobId
    *          The <code>id</code> of the <code>BLOB</code> that should be modified.
-   * @param updatingAction
-   *          The callback action that modifies the content of the <code>BLOB</code>.
+   * @return The reader object that can be used to modify the blob content.
    * @throws NoSuchBlobException
    *           if there is no <code>BLOB</code> with the specified <code>id</code>.
-   * @throws NullPointerException
-   *           if <code>updatingAction</code> is <code>null</code>.
    */
-  void updateBlob(long blobId, Consumer<BlobAccessor> updatingAction);
+  BlobAccessor updateBlob(long blobId);
 
 }
