@@ -23,9 +23,6 @@ public interface Blobstore {
   /**
    * Creates a new <code>BLOB</code>.
    *
-   * @param createAction
-   *          The action that fills the new <code>BLOB</code> with content or <code>null</code> if
-   *          an empty <code>BLOB</code> should be created.
    * @return The accessor object to manipulate the blob content.
    */
   BlobAccessor createBlob();
