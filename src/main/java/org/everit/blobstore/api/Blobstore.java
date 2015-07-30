@@ -16,7 +16,7 @@
 package org.everit.blobstore.api;
 
 /**
- * A store that can hold large binary data.
+ * A store that can persist large binary data transactionally.
  */
 public interface Blobstore {
 

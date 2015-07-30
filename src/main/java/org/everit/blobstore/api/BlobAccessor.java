@@ -16,7 +16,7 @@
 package org.everit.blobstore.api;
 
 /**
- * Interface to manipulate blob data.
+ * Blob content manipulation interface.
  */
 public interface BlobAccessor extends BlobReader {
 

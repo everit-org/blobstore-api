@@ -18,7 +18,7 @@ package org.everit.blobstore.api;
 import java.io.Closeable;
 
 /**
- * Blob accessor to read Blob content and related data.
+ * Blob accessor to read Blob content and related meta information.
  */
 public interface BlobReader extends Closeable {
 
@@ -42,6 +42,20 @@ public interface BlobReader extends Closeable {
    * @return The current position of the cursor in the <code>BLOB</code>.
    */
   long getPosition();
+
+  /**
+   * Returns the size of the blob.
+   *
+   * @return The size of the blob in bytes.
+   */
+  long getSize();
+
+  /**
+   * Get the version of the blob. The version can be used for optimistic locking.
+   *
+   * @return The version of the Blob at the moment of opening the blob.
+   */
+  long getVersion();
 
   /**
    * Reads up to <code>len</code> bytes of data from the <code>BLOB</code> into an array of bytes.
@@ -109,19 +123,5 @@ public interface BlobReader extends Closeable {
    *           {@link #getSize()} of the <code>BLOB</code>.
    */
   void seek(long pos);
-
-  /**
-   * Returns the size of the blob.
-   *
-   * @return The size of the blob in bytes.
-   */
-  long getSize();
-
-  /**
-   * Get the version of the blob. The version can be used for optimistic locking.
-   *
-   * @return The version of the Blob at the moment of opening the blob.
-   */
-  long getVersion();
 
 }
