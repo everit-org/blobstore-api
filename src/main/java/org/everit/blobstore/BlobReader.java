@@ -92,8 +92,6 @@ public interface BlobReader extends Closeable {
    *          the maximum number of bytes to read.
    * @return the total number of bytes read into the buffer, or <code>-1</code> if there is no more
    *         data because the end of the <code>BLOB</code> has been reached.
-   * @throws java.io.IOException
-   *           If reading the content of the <code>BLOB</code> throws an exception.
    *
    * @throws NullPointerException
    *           If <code>b</code> is <code>null</code>.
@@ -116,8 +114,6 @@ public interface BlobReader extends Closeable {
    *
    * @param pos
    *          position within object from begining
-   * @throws java.io.UncheckedIOException
-   *           if a database-access error occurs.
    * @throws IndexOutOfBoundsException
    *           if the specified <code>pos</code> is less than zero or bigger than the
    *           {@link #getSize()} of the <code>BLOB</code>.

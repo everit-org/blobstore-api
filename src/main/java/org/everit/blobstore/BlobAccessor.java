@@ -63,8 +63,6 @@ public interface BlobAccessor extends BlobReader {
    *          the number of bytes to write.
    * @throws NullPointerException
    *           if b is <code>null</code>.
-   * @throws java.io.UncheckedIOException
-   *           if there is an IO error during writing into the Blob.
    * @throws IndexOutOfBoundsException
    *           if <code>off</code> is negative, or <code>len</code> is negative, or
    *           <code>off+len</code> is greater than the length of the array <code>b</code>.
