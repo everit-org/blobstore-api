@@ -48,7 +48,7 @@ public interface BlobReader extends Closeable {
    *
    * @return The size of the blob in bytes.
    */
-  long getSize();
+  long getLength();
 
   /**
    * Get the version of the blob. The version can be used for optimistic locking.
@@ -116,7 +116,7 @@ public interface BlobReader extends Closeable {
    *          position within object from begining
    * @throws IndexOutOfBoundsException
    *           if the specified <code>pos</code> is less than zero or bigger than the
-   *           {@link #getSize()} of the <code>BLOB</code>.
+   *           {@link #getLength()} of the <code>BLOB</code>.
    */
   void seek(long pos);
 
