@@ -41,7 +41,7 @@ public interface BlobReader extends Closeable {
    *
    * @return The current position of the cursor in the <code>BLOB</code>.
    */
-  long position();
+  long getPosition();
 
   /**
    * Reads up to <code>len</code> bytes of data from the <code>BLOB</code> into an array of bytes.
@@ -106,7 +106,7 @@ public interface BlobReader extends Closeable {
    *           if a database-access error occurs.
    * @throws IndexOutOfBoundsException
    *           if the specified <code>pos</code> is less than zero or bigger than the
-   *           {@link #size()} of the <code>BLOB</code>.
+   *           {@link #getSize()} of the <code>BLOB</code>.
    */
   void seek(long pos);
 
@@ -115,13 +115,13 @@ public interface BlobReader extends Closeable {
    *
    * @return The size of the blob in bytes.
    */
-  long size();
+  long getSize();
 
   /**
    * Get the version of the blob. The version can be used for optimistic locking.
    *
    * @return The version of the Blob at the moment of opening the blob.
    */
-  long version();
+  long getVersion();
 
 }

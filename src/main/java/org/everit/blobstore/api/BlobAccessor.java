@@ -29,7 +29,7 @@ public interface BlobAccessor extends BlobReader {
    * @return The version that will be assigned to the <code>BLOB</code> after the new content is
    *         persisted.
    */
-  long newVersion();
+  long getNewVersion();
 
   /**
    * Truncates the <code>BLOB</code> value that this <code>Blob</code> object represents to be
@@ -40,7 +40,7 @@ public interface BlobAccessor extends BlobReader {
    *          object represents should be truncated
    * @throws IllegalArgumentException
    *           if <code>newLength</code> is lower than zero, or bigger than the current size of the
-   *           <code>BLOB</code> or {@link #position()} is not in the range of the new length.
+   *           <code>BLOB</code> or {@link #getPosition()} is not in the range of the new length.
    */
   void truncate(long newLength);
 
@@ -52,7 +52,7 @@ public interface BlobAccessor extends BlobReader {
    * operation.
    *
    * <p>
-   * The {@link #position()} will be incremented with the amount of the bytes that are written to
+   * The {@link #getPosition()} will be incremented with the amount of the bytes that are written to
    * the <code>BLOB</code>.
    *
    * @param b
