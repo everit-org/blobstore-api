@@ -1,3 +1,3 @@
 # blobstore-api
 
-Documentation: http://wwww.everit.org/blobstore-api
+Documentation: http://www.everit.org/blobstore-api
